@@ -1,0 +1,22 @@
+<ns2:saveModelDescriptionRequest
+	xmlns:ns2="http://www.ime.iiasa.ac.at/enrima/model/example">
+	<model>
+		<id>38</id>
+		<name>Test</name>
+		<version>1.0</version>
+		<description>Test</description>
+		<note>description</note>
+		<auditable>
+			<creationDate>2011-11-29+01:00</creationDate>
+			<createdBy>
+				<id>1010</id>
+				<login>hongtao</login>
+			</createdBy>
+			<modificationDate>2011-12-07+01:00</modificationDate>
+			<modifieddBy>
+				<id>1010</id>
+				<login>hongtao</login>
+			</modifieddBy>
+		</auditable>
+	</model>
+</ns2:saveModelDescriptionRequest>

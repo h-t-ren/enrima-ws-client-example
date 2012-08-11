@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xsi:schemaLocation="http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory" />
+
+
+	<bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+		<constructor-arg ref="messageFactory" />
+		<!-- HTTP based authication
+		<property name="messageSender">
+			<bean
+				class="org.springframework.ws.transport.http.CommonsHttpMessageSender">
+				<property name="credentials">
+					<bean class="org.apache.commons.httpclient.UsernamePasswordCredentials">
+						<constructor-arg value="hongtao" />
+						<constructor-arg value="hongtao" />
+					</bean>
+				</property>
+			</bean>
+		</property> -->
+		<property name="messageSender" ref ="messageSender" />
+		<property name="marshaller" ref="marshaller" />
+		<property name="unmarshaller" ref="marshaller" />
+		<property name="defaultUri"
+			value="http://pc98135:8080/enrima-ws-server-ws/soap/enrima.wsdl" />
+	<!--  	<property name="interceptors">
+			<list>
+				<ref local="wsSecurityInterceptor" />
+			</list>
+		</property> -->
+	</bean>
+	<bean id="wsSecurityInterceptor"
+		class="org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor">
+		<!-- <property name="securementUsername" value="hongtao" /> <property name="securementPassword" 
+			value="05ac3b503f3f028e470599f3f9907609" /> -->
+		<property name="validationActions" value="UsernameToken" />
+		<property name="validationCallbackHandler" ref="callbackHandler" />
+	</bean>
+
+	<bean id="callbackHandler"
+		class="org.springframework.ws.soap.security.wss4j.callback.SimplePasswordValidationCallbackHandler">
+		<property name="users">
+			<props>
+				<prop key="hongtao">05ac3b503f3f028e470599f3f9907609</prop>
+			</props>
+		</property>
+	</bean>
+
+	<oxm:jaxb2-marshaller id="marshaller"
+		contextPath="at.ac.iiasa.ime.enrima.ws.example.oxm" />
+	<bean id="modelClient"
+		class="at.ac.iiasa.ime.enirma.example.ws.client.ModelClientImpl" />
+
+	<bean id="messageSender"
+		class="org.springframework.ws.transport.http.CommonsHttpMessageSender" />
+</beans>
